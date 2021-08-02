@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.system.dao.UserDao">
+
+    <resultMap id="userMap" type="com.example.system.domain.User">
+        <id column="ID" property="id"/>
+        <result column="USERNAME" property="userName"/>
+        <result column="NAME" property="name"/>
+        <result column="SEX" property="sex"/>
+        <result column="PHONE" property="phone"/>
+        <result column="EMAIL" property="email"/>
+        <result column="PASSWORD" property="password"/>
+        <result column="STATE" property="state"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="CREATION_DATE" property="creationDate"/>
+        <result column="LAST_UPDATE_BY" property="lastUpdateBy"/>
+        <result column="LAST_UPDATED_DATE" property="lastUpdateDate"/>
+        <result column="LAST_UPDATED_LOGIN" property="lastUpdateLogin"/>
+        <result column="DESCRIPTION" property="description"/>
+        <result column="DELETE_FLAG" property="deleteFlag"/>
+    </resultMap>
+
+    <select id="findAllDemoUser" resultType="User">
+        select * from USER_T
+    </select>
+
+    <select id="findDemoUserById" parameterType="Integer" resultType="User">
+        select * from USER_T where ID = #{id}
+    </select>
+
+    <select id="demoUserLogin" resultType="User">
+        select * from USER_T where USERNAME = #{userName} and PASSWORD = #{password}
+    </select>
+
+    <select id="findUserByKeyWords" resultType="User">
+        select * from USER_T
+        <where>
+            <if test="userName!=null and userName!=''">
+                and userName like CONCAT(CONCAT('%',#{userName}),'%')
+            </if>
+            <if test="name!=null and name!=''">
+                and name like CONCAT(CONCAT('%',#{name}),'%')
+            </if>
+            <if test="state!=null and state!=''">
+                and state like CONCAT(CONCAT('%',#{state}),'%')
+            </if>
+            <if test="startDate!=null"  >
+                and CREATION_DATE >= #{startDate}
+            </if>
+            <if test="endDate!=null">
+                and #{endDate} >= CREATION_DATE
+            </if>
+        </where>
+    </select>
+
+    <!-- 对应的插入字段的名字 -->
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="userName!=null and userName!=''">
+                userName,
+            </if>
+            <if test="name!=null and name!=''">
+                name,
+            </if>
+            <if test="sex!=null and sex!=''">
+                sex,
+            </if>
+            <if test="phone!=null and phone!=''">
+                phone,
+            </if>
+            <if test="email!=null and email!=''">
+                email,
+            </if>
+            <if test="password!=null and password!=''">
+                password,
+            </if>
+            <if test="state!=null and state!=''">
+                state,
+            </if>
+            <if test="createBy!=null and createBy!=''">
+                CREATE_BY,
+            </if>
+            <if test="creationDate!=null and creationDate!=''">
+                CREATION_DATE,
+            </if>
+            <if test="lastUpdateBy!=null and lastUpdateBy!=''">
+                LAST_UPDATE_BY,
+            </if>
+            <if test="lastUpdatedDate!=null and lastUpdatedDate!=''">
+                LAST_UPDATED_DATE,
+            </if>
+            <if test="lastUpdatedLogin!=null and lastUpdatedLogin!=''">
+                LAST_UPDATED_LOGIN,
+            </if>
+            <if test="description!=null and description!=''">
+                description,
+            </if>
+            <if test="deleteFlag!=null and deleteFlag!=''">
+                deleteFlag
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 对应的插入字段的值 -->
+    <sql id="values">
+        <trim suffixOverrides=",">
+            <if test="userName!=null and userName!=''">
+                #{userName},
+            </if>
+            <if test="name!=null and name!=''">
+                #{name},
+            </if>
+            <if test="sex!=null and sex!=''">
+                #{sex},
+            </if>
+            <if test="phone!=null and phone!=''">
+                #{phone},
+            </if>
+            <if test="email!=null and email!=''">
+                #{email},
+            </if>
+            <if test="password!=null and password!=''">
+                #{password},
+            </if>
+            <if test="state!=null and state!=''">
+                #{state},
+            </if>
+            <if test="createBy!=null and createBy!=''">
+                #{createBy},
+            </if>
+            <if test="creationDate!=null and creationDate!=''">
+                #{creationDate},
+            </if>
+            <if test="lastUpdateBy!=null and lastUpdateBy!=''">
+                #{lastUpdateBy},
+            </if>
+            <if test="lastUpdatedDate!=null and lastUpdatedDate!=''">
+                #{lastUpdatedDate},
+            </if>
+            <if test="lastUpdatedLogin!=null and lastUpdatedLogin!=''">
+                #{lastUpdatedLogin},
+            </if>
+            <if test="description!=null and description!=''">
+                #{description},
+            </if>
+            <if test="deleteFlag!=null and deleteFlag!=''">
+                #{deleteFlag}
+            </if>
+        </trim>
+    </sql>
+    <insert id="addDemoUser" parameterType="User">
+        insert into USER_T(<include refid="key"/>)
+        values(<include refid="values"/>)
+    </insert>
+
+    <delete id="deleteDemoUser" parameterType="Integer">
+        delete from USER_T where ID in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+<!--    <update id="deleteDemoUser" parameterType="Integer">-->
+<!--        update USER_T set DELETE_FLAG = #{deleteFlag} where ID in-->
+<!--        <foreach collection="list" item="id" index="index" open="(" separator="," close=")">-->
+<!--            #{id}-->
+<!--        </foreach>-->
+<!--    </update>-->
+
+    <update id="updateDemoUSer" parameterType="User">
+        update USER_T
+            <trim prefix="set" prefixOverrides="," suffixOverrides=",">
+                <if test="userName!=null and userName!=''">
+                    userName = #{userName},
+                </if>
+                <if test="name!=null and name!=''">
+                    name = #{name},
+                </if>
+                <if test="sex!=null and sex!=''">
+                    sex = #{sex},
+                </if>
+                <if test="phone!=null and phone!=''">
+                    phone = #{phone},
+                </if>
+                <if test="email!=null and email!=''">
+                    email = #{email},
+                </if>
+                <if test="password!=null and password!=''">
+                    password = #{password},
+                </if>
+                <if test="state!=null and state!=''">
+                    state = #{state},
+                </if>
+                <if test="createBy!=null and createBy!=''">
+                    CREATE_BY = #{createBy},
+                </if>
+                <if test="creationDate!=null and creationDate!=''">
+                    CREATION_DATE = #{creationDate},
+                </if>
+                <if test="lastUpdateBy!=null and lastUpdateBy!=''">
+                    LAST_UPDATE_BY = #{lastUpdateBy},
+                </if>
+                <if test="lastUpdatedDate!=null and lastUpdatedDate!=''">
+                    LAST_UPDATED_DATE = #{lastUpdatedDate},
+                </if>
+                <if test="lastUpdatedLogin!=null and lastUpdatedLogin!=''">
+                    LAST_UPDATED_LOGIN = #{lastUpdatedLogin},
+                </if>
+                <if test="description!=null and description!=''">
+                    description = #{description},
+                </if>
+                <if test="deleteFlag!=null and deleteFlag!=''">
+                    DELETE_FLAG = #{deleteFlag},
+                </if>
+            </trim>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <update id="changeState" >
+        update USER_T  set state = #{state} where ID = #{id}
+    </update>
+
+    <update id="setUserRole" parameterType="User">
+        <foreach collection="list" item="roleId" index="index" open="" close="" separator=";">
+            update USER_ROLE_T
+            <set>
+                ROLE_ID = #{roleId}
+            </set>
+        </foreach>
+            where userId = #{userId}
+    </update>
+</mapper>

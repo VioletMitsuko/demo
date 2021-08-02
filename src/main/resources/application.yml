@@ -1,0 +1,21 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    username: mitsuko
+    password: 123456
+    url: jdbc:oracle:thin:@localhost:1521:XE
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+
+mybatis:
+  mapper-locations: mapper/*.xml
+  type-aliases-package: com.example.system.domain
+  configuration:
+    map-underscore-to-camel-case: true
+
+#分页pageHelper
+pagehelper:
+  helper-dialect: oracle
+  reasonable: true
+  support-methods-arguments: true

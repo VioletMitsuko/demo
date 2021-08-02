@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.system.dao.RoleDao">
+
+    <select id="findAllDemoRole" resultType="Role">
+        select * from ROLE_T
+    </select>
+
+    <select id="findDemoRoleById" resultType="Role">
+        select * from ROLE_T where ID = #{id}
+    </select>
+
+    <select id="findRoleByKeyWords" resultType="Role">
+        select * from ROLE_T
+        <where>
+            <if test="name!=null and name!=''">
+                and name like CONCAT(CONCAT('%',#{name}),'%')
+            </if>
+            <if test="state!=null and state!=''">
+                and state like CONCAT(CONCAT('%',#{state}),'%')
+            </if>
+        </where>
+    </select>
+
+    <!-- 对应的插入字段的名字 -->
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="roleCode!=null and roleCode!=''">
+                roleCode,
+            </if>
+            <if test="name!=null and name!=''">
+                name,
+            </if>
+            <if test="starTime!=null and starTime!=''">
+                starTime,
+            </if>
+            <if test="stopTime!=null and stopTime!=''">
+                stopTime,
+            </if>
+            <if test="state!=null and state!=''">
+                state,
+            </if>
+            <if test="createBy!=null and createBy!=''">
+                createBy,
+            </if>
+            <if test="creationDate!=null and creationDate!=''">
+                creationDate,
+            </if>
+            <if test="lastUpdateBy!=null and lastUpdateBy!=''">
+                lastUpdateBy,
+            </if>
+            <if test="lastUpdatedDate!=null and lastUpdatedDate!=''">
+                lastUpdatedDate,
+            </if>
+            <if test="lastUpdatedLogin!=null and lastUpdatedLogin!=''">
+                lastUpdatedLogin,
+            </if>
+            <if test="description!=null and description!=''">
+                description,
+            </if>
+            <if test="deleteFlag!=null and deleteFlag!=''">
+                deleteFlag
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 对应的插入字段的值 -->
+    <sql id="values">
+        <trim suffixOverrides=",">
+            <if test="roleCode!=null and roleCode!=''">
+                #{roleCode},
+            </if>
+            <if test="name!=null and name!=''">
+                #{name},
+            </if>
+            <if test="starTime!=null and starTime!=''">
+                #{starTime},
+            </if>
+            <if test="stopTime!=null and stopTime!=''">
+                #{stopTime},
+            </if>
+            <if test="state!=null and state!=''">
+                #{state},
+            </if>
+            <if test="createBy!=null and createBy!=''">
+                #{createBy},
+            </if>
+            <if test="creationDate!=null and creationDate!=''">
+                #{creationDate},
+            </if>
+            <if test="lastUpdateBy!=null and lastUpdateBy!=''">
+                #{lastUpdateBy},
+            </if>
+            <if test="lastUpdatedDate!=null and lastUpdatedDate!=''">
+                #{lastUpdatedDate},
+            </if>
+            <if test="lastUpdatedLogin!=null and lastUpdatedLogin!=''">
+                #{lastUpdatedLogin},
+            </if>
+            <if test="description!=null and description!=''">
+                #{description},
+            </if>
+            <if test="deleteFlag!=null and deleteFlag!=''">
+                #{deleteFlag}
+            </if>
+        </trim>
+    </sql>
+    <insert id="addDemoRole" parameterType="Role">
+        insert into ROLE_T(<include refid="key"/>)
+        values(<include refid="values"/>)
+    </insert>
+
+    <delete id="deleteDemoRole" parameterType="Integer">
+        delete from ROLE_T where ID in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateDemoRole" parameterType="Role">
+        update ROLE_T
+        <trim prefix="set" prefixOverrides="," suffixOverrides=",">
+            <if test="roleCode!=null and roleCode!=''">
+                roleCode = #{roleCode},
+            </if>
+            <if test="name!=null and name!=''">
+                name = #{name},
+            </if>
+            <if test="starTime!=null and starTime!=''">
+                starTime = #{starTime},
+            </if>
+            <if test="stopTime!=null and stopTime!=''">
+                stopTime = #{stopTime},
+            </if>
+            <if test="state!=null and state!=''">
+                state = #{state},
+            </if>
+            <if test="createBy!=null and createBy!=''">
+                createBy = #{createBy},
+            </if>
+            <if test="creationDate!=null and creationDate!=''">
+                creationDate = #{creationDate},
+            </if>
+            <if test="lastUpdateBy!=null and lastUpdateBy!=''">
+                lastUpdateBy = #{lastUpdateBy},
+            </if>
+            <if test="lastUpdatedDate!=null and lastUpdatedDate!=''">
+                lastUpdatedDate = #{lastUpdatedDate},
+            </if>
+            <if test="lastUpdatedLogin!=null and lastUpdatedLogin!=''">
+                lastUpdatedLogin = #{lastUpdatedLogin},
+            </if>
+            <if test="description!=null and description!=''">
+                description = #{description},
+            </if>
+            <if test="deleteFlag!=null and deleteFlag!=''">
+                deleteFlag = #{deleteFlag},
+            </if>
+        </trim>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+</mapper>

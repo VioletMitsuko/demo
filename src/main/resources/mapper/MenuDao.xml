@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.system.dao.MenuDao">
+
+    <select id="findAllDemoMenu" resultType="Menu">
+        select * from MENU_T where FATHER_ID
+    </select>
+
+    <select id="findMenuByKeyWords" resultType="Menu">
+        select * from MENU_T
+        <where>
+            <if test="name!=null and name!=''">
+                and name like CONCAT(CONCAT('%',#{name}),'%')
+            </if>
+            <if test="state!=null and state!=''">
+                and state like CONCAT(CONCAT('%',#{state}),'%')
+            </if>
+            <if test="type!=null and type!=''">
+                and type like CONCAT(CONCAT('%',#{type}),'%')
+            </if>
+        </where>
+    </select>
+
+    <!-- 对应的插入字段的名字 -->
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="name!=null and name!=''">
+                name,
+            </if>
+            <if test="fatherId!=null and fatherId!=''">
+                FATHER_ID,
+            </if>
+            <if test="type!=null and type!=''">
+                TYPE,
+            </if>
+            <if test="url!=null and url!=''">
+                URL,
+            </if>
+            <if test="img!=null and img!=''">
+                IMG,
+            </if>
+            <if test="state!=null and state!=''">
+                state,
+            </if>
+            <if test="createBy!=null and createBy!=''">
+                CREATE_BY,
+            </if>
+            <if test="creationDate!=null and creationDate!=''">
+                CREATION_DATE,
+            </if>
+            <if test="lastUpdateBy!=null and lastUpdateBy!=''">
+                LAST_UPDATE_BY,
+            </if>
+            <if test="lastUpdatedDate!=null and lastUpdatedDate!=''">
+                LAST_UPDATED_DATE,
+            </if>
+            <if test="description!=null and description!=''">
+                description,
+            </if>
+            <if test="deleteFlag!=null and deleteFlag!=''">
+                deleteFlag,
+            </if>
+            <if test="identifier!=null and identifier!=''">
+                identifier,
+            </if>
+            <if test="sortNum!=null and sortNum!=''">
+                sortNum
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 对应的插入字段的值 -->
+    <sql id="values">
+        <trim suffixOverrides=",">
+            <if test="name!=null and name!=''">
+                #{name},
+            </if>
+            <if test="fatherId!=null and fatherId!=''">
+                #{fatherId},
+            </if>
+            <if test="type!=null and type!=''">
+                #{type},
+            </if>
+            <if test="url!=null and url!=''">
+                #{url},
+            </if>
+            <if test="img!=null and img!=''">
+                #{img},
+            </if>
+            <if test="state!=null and state!=''">
+                #{state},
+            </if>
+            <if test="createBy!=null and createBy!=''">
+                #{createBy},
+            </if>
+            <if test="creationDate!=null and creationDate!=''">
+                #{creationDate},
+            </if>
+            <if test="lastUpdateBy!=null and lastUpdateBy!=''">
+                #{lastUpdateBy},
+            </if>
+            <if test="lastUpdatedDate!=null and lastUpdatedDate!=''">
+                #{lastUpdatedDate},
+            </if>
+            <if test="description!=null and description!=''">
+                #{description},
+            </if>
+            <if test="deleteFlag!=null and deleteFlag!=''">
+                #{deleteFlag},
+            </if>
+            <if test="identifier!=null and identifier!=''">
+                #{identifier},
+            </if>
+            <if test="sortNum!=null and sortNum!=''">
+                #{sortNum}
+            </if>
+        </trim>
+    </sql>
+    <insert id="addDemoMenu" parameterType="Menu">
+        insert into MENU_T(<include refid="key"/>)
+        values(<include refid="values"/>)
+    </insert>
+
+    <update id="updateDemoMenu" parameterType="Menu">
+        update MENU_T
+        <trim prefix="set" prefixOverrides="," suffixOverrides=",">
+            <if test="name!=null and name!=''">
+                name = #{name},
+            </if>
+            <if test="fatherId!=null and fatherId!=''">
+                FATHER_ID = #{fatherId},
+            </if>
+            <if test="type!=null and type!=''">
+                type = #{type},
+            </if>
+            <if test="url!=null and url!=''">
+                url = #{url},
+            </if>
+            <if test="img!=null and img!=''">
+                img = #{img},
+            </if>
+            <if test="state!=null and state!=''">
+                state = #{state},
+            </if>
+            <if test="createBy!=null and createBy!=''">
+                CREATE_BY = #{createBy},
+            </if>
+            <if test="creationDate!=null and creationDate!=''">
+                CREATION_DATE = #{creationDate},
+            </if>
+            <if test="lastUpdateBy!=null and lastUpdateBy!=''">
+                LAST_UPDATE_BY = #{lastUpdateBy},
+            </if>
+            <if test="lastUpdatedDate!=null and lastUpdatedDate!=''">
+                LAST_UPDATED_DATE = #{lastUpdatedDate},
+            </if>
+            <if test="description!=null and description!=''">
+                description = #{description},
+            </if>
+            <if test="deleteFlag!=null and deleteFlag!=''">
+                deleteFlag = #{deleteFlag},
+            </if>
+            <if test="identifier!=null and identifier!=''">
+                identifier = #{identifier},
+            </if>
+            <if test="sortNum!=null and sortNum!=''">
+                sortNum = #{sortNum},
+            </if>
+        </trim>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+</mapper>
