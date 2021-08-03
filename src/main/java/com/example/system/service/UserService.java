@@ -39,7 +39,11 @@ public interface UserService {
      * 模糊查询
      * @param pageNum 当前页
      * @param pageSize 每页个数
-     * @param user
+     * @param userName 用户名
+     * @param name 姓名
+     * @param state 状态
+     * @param startDate 开始时间
+     * @param endDate 结束时间
      * @return PageInfo
      */
     PageInfo<User> findUserByKeyWords(Integer pageNum, Integer pageSize,String userName,String name,String state,String startDate,String endDate);

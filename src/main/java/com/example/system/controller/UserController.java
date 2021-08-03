@@ -6,10 +6,15 @@ import com.example.system.service.UserService;
 import com.example.system.utils.ResultInfo;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
 
-import java.sql.Date;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -54,6 +59,8 @@ public class UserController {
         String state = (String) params.get("state");
         String startDate = (String) params.get("startDate");
         String endDate = (String) params.get("endDate");
+        System.out.println(startDate+"----startDate------------------------");
+        System.out.println(endDate+"----endDate------------------------");
         PageInfo<User> userByKeyWords = userService.findUserByKeyWords(page, limit,userName,name,state,startDate,endDate);
         return new ResultInfo<>(200, "success", userByKeyWords);
 
