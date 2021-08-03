@@ -42,7 +42,7 @@ public interface UserService {
      * @param user
      * @return PageInfo
      */
-    PageInfo<User> findUserByKeyWords(int pageNum, int pageSize,User user);
+    PageInfo<User> findUserByKeyWords(Integer pageNum, Integer pageSize,String userName,String name,String state,String startDate,String endDate);
 
     /**
      * 添加用户

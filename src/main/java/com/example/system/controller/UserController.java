@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author VioletMitsuko
@@ -47,8 +48,13 @@ public class UserController {
     }
 
     @PostMapping("/findUserByKeyWords")
-    public ResultInfo<PageInfo<User>> findUserByKeyWords(Integer page,Integer limit,User user) {
-        PageInfo<User> userByKeyWords = userService.findUserByKeyWords(page, limit, user);
+    public ResultInfo<PageInfo<User>> findUserByKeyWords(Integer page,Integer limit,@RequestParam Map params) {
+        String userName = (String) params.get("userName");
+        String name = (String) params.get("name");
+        String state = (String) params.get("state");
+        String startDate = (String) params.get("startDate");
+        String endDate = (String) params.get("endDate");
+        PageInfo<User> userByKeyWords = userService.findUserByKeyWords(page, limit,userName,name,state,startDate,endDate);
         return new ResultInfo<>(200, "success", userByKeyWords);
 
     }
@@ -72,12 +78,12 @@ public class UserController {
     }
 
     @RequestMapping("/changeState")
-    public String changeState(Integer state,int id){
+    public ResultInfo<Integer> changeState(Integer state,int id){
         int i = userService.changeState(state,id);
-        if (i > 0 ){
-            return "ok";
+        if (i > 0){
+            return new ResultInfo<>(200, "状态修改成功", i);
         }
-        return "no";
+        return new ResultInfo<>(405, "状态修改失败", i);
     }
 
     @PostMapping("/setUserRole")

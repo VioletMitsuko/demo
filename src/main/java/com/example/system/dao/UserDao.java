@@ -38,12 +38,8 @@ public interface UserDao {
     User demoUserLogin(String userName, String password);
 
 
-    /**
-     * 模糊查询
-     * @param user
-     * @return list
-     */
-    List<User> findUserByKeyWords(User user);
+
+    List<User> findUserByKeyWords(String userName,String name,String state,String startDate,String endDate);
 
     /**
      * 添加用户
