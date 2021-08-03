@@ -40,14 +40,10 @@ public interface UserDao {
 
     /**
      * 模糊查询
-     * @param userName 用户名
-     * @param name 姓名
-     * @param state 状态
-     * @param startDate 开始时间
-     * @param endDate 结束时间
-     * @return List
+     * @param user
+     * @return list
      */
-    List<User> findUserByKeyWords(String userName, String name, Integer state, Date startDate,Date endDate);
+    List<User> findUserByKeyWords(User user);
 
     /**
      * 添加用户

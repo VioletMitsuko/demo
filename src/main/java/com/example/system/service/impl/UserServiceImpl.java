@@ -40,9 +40,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PageInfo<User> findUserByKeyWords(int pageNum, int pageSize, String userName, String name, Integer state, Date startDate,Date endDate) {
+    public PageInfo<User> findUserByKeyWords(int pageNum, int pageSize,User user) {
         PageHelper.startPage(pageNum,pageSize);
-        List<User> lists = userDao.findUserByKeyWords(userName, name, state, startDate,endDate);
+        List<User> lists = userDao.findUserByKeyWords(user);
         PageInfo<User> pageInfo = new PageInfo<>(lists);
         return pageInfo;
     }

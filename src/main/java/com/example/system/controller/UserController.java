@@ -47,19 +47,19 @@ public class UserController {
     }
 
     @PostMapping("/findUserByKeyWords")
-    public PageInfo findUserByKeyWords(String userName,String name,Integer state,Date startDate,Date endDate) {
-        PageInfo<User> userByKeyWords = userService.findUserByKeyWords(1, 5, userName, name, state, startDate, endDate);
-        return userByKeyWords;
+    public ResultInfo<PageInfo<User>> findUserByKeyWords(Integer page,Integer limit,User user) {
+        PageInfo<User> userByKeyWords = userService.findUserByKeyWords(page, limit, user);
+        return new ResultInfo<>(200, "success", userByKeyWords);
 
     }
 
     @PostMapping("/updateUser")
-    public String updateUser(User user){
+    public ResultInfo<Integer> updateUser(User user){
         int i = userService.updateDemoUser(user);
         if (i > 0){
-            return "ok";
+            return new ResultInfo<>(200, "修改成功", i);
         }
-        return "no";
+        return new ResultInfo<>(405, "修改失败", i);
     }
 
     @RequestMapping("/deleteUser")
