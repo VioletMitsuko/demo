@@ -3,7 +3,21 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.system.dao.RoleDao">
-
+    <resultMap id="roleMap" type="com.example.system.domain.Role">
+        <id column="ID" property="id"/>
+        <result column="ROLECODE" property="roleCode"/>
+        <result column="NAME" property="name"/>
+        <result column="STARTIME" property="starTime"/>
+        <result column="STOPTIME" property="stopTime"/>
+        <result column="STATE" property="state"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="CREATION_DATE" property="creationDate"/>
+        <result column="LAST_UPDATE_BY" property="lastUpdateBy"/>
+        <result column="LAST_UPDATED_DATE" property="lastUpdateDate"/>
+        <result column="LAST_UPDATED_LOGIN" property="lastUpdateLogin"/>
+        <result column="DESCRIPTION" property="description"/>
+        <result column="DELETE_FLAG" property="deleteFlag"/>
+    </resultMap>
     <select id="findAllDemoRole" resultType="Role">
         select * from ROLE_T
     </select>
@@ -33,10 +47,10 @@
             <if test="name!=null and name!=''">
                 name,
             </if>
-            <if test="starTime!=null and starTime!=''">
+            <if test="starTime!=null">
                 starTime,
             </if>
-            <if test="stopTime!=null and stopTime!=''">
+            <if test="stopTime!=null">
                 stopTime,
             </if>
             <if test="state!=null and state!=''">
@@ -75,10 +89,10 @@
             <if test="name!=null and name!=''">
                 #{name},
             </if>
-            <if test="starTime!=null and starTime!=''">
+            <if test="starTime!=null">
                 #{starTime},
             </if>
-            <if test="stopTime!=null and stopTime!=''">
+            <if test="stopTime!=null">
                 #{stopTime},
             </if>
             <if test="state!=null and state!=''">

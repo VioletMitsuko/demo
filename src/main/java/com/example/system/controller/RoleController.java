@@ -5,15 +5,16 @@ import com.example.system.service.RoleService;
 import com.example.system.utils.ResultInfo;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
+
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @author VioletMitsuko
@@ -24,6 +25,13 @@ public class RoleController {
 
     @Autowired
     private RoleService roleService;
+
+    @InitBinder
+    protected void init(HttpServletRequest request, ServletRequestDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+    }
 
     @RequestMapping("/pageS")
     public PageInfo<Role> pageS(){
@@ -40,7 +48,7 @@ public class RoleController {
     }
 
     @RequestMapping("/addRole")
-    public ResultInfo<Integer>  addROle(Role role)  {
+    public ResultInfo<Integer> addROle(Role role)  {
         int i = roleService.addDemoRole(role);
         if (i > 0){
             return new ResultInfo<>(200, "添加成功", i);
@@ -64,5 +72,14 @@ public class RoleController {
             return new ResultInfo<>(200, "状态修改成功", i);
         }
         return new ResultInfo<>(405, "状态修改失败", i);
+    }
+
+    @RequestMapping("/deleteRole")
+    public ResultInfo<Integer> deleteRole(@RequestParam List<Integer> id){
+        int i = roleService.deleteDemoRole(id);
+        if (i > 0){
+            return new ResultInfo<>(200, "删除成功", i);
+        }
+        return new ResultInfo<>(405, "删除失败", i);
     }
 }

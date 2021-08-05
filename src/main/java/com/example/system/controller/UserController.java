@@ -59,7 +59,6 @@ public class UserController {
         String name = (String) params.get("name");
         String state = (String) params.get("state");
         String date = (String) params.get("date");
-        System.out.println(params.get("date")+"=================");
         Date startDate = null;
         Date endDate = null;
         if((!"".equals(date)) && (!"null".equals(date)) && date != null){
@@ -68,11 +67,11 @@ public class UserController {
             startDate = dateUtils.str2Date(dates[0]);
             endDate = dateUtils.str2Date(dates[1]);
         }
-        System.out.println(startDate+"----startDate------------------------");
-        System.out.println(endDate+"----endDate------------------------");
         PageInfo<User> userByKeyWords = userService.findUserByKeyWords(page, limit,userName,name,state,startDate,endDate);
-        return new ResultInfo<>(200, "success", userByKeyWords);
-
+        if (userByKeyWords != null) {
+            return new ResultInfo<>(200, "success", userByKeyWords);
+        }
+        return new ResultInfo<>(405, "无数据", null);
     }
 
     @PostMapping("/updateUser")

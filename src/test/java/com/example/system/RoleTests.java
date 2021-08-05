@@ -3,6 +3,7 @@ package com.example.system;
 import com.example.system.dao.RoleDao;
 import com.example.system.domain.Role;
 import com.example.system.service.RoleService;
+import com.example.system.utils.ResultInfo;
 import com.github.pagehelper.PageInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,12 @@ public class RoleTests {
     void testFindAllByPage(){
         PageInfo<Role> allByPage = roleService.findAllByPage(1, 5);
         System.out.println(allByPage);
+    }
+
+    @Test
+    void testAddRole(){
+        PageInfo<Role> i = roleService.findAllByPage(1,5);
+        ResultInfo<PageInfo<Role>> success = new ResultInfo<>(200, "success", i);
+        System.out.println(success);
     }
 }
