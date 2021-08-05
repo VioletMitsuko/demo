@@ -46,7 +46,7 @@ public interface UserService {
      * @param endDate 结束时间
      * @return PageInfo
      */
-    PageInfo<User> findUserByKeyWords(Integer pageNum, Integer pageSize,String userName,String name,String state,String startDate,String endDate);
+    PageInfo<User> findUserByKeyWords(Integer pageNum, Integer pageSize,String userName,String name,String state,Date startDate,Date endDate);
 
     /**
      * 添加用户

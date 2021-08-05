@@ -3,6 +3,7 @@ package com.example.system.controller;
 import com.example.system.domain.User;
 import com.example.system.domain.UserRole;
 import com.example.system.service.UserService;
+import com.example.system.utils.DateUtils;
 import com.example.system.utils.ResultInfo;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
 
-import java.util.Date;
+import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -57,8 +58,16 @@ public class UserController {
         String userName = (String) params.get("userName");
         String name = (String) params.get("name");
         String state = (String) params.get("state");
-        String startDate = (String) params.get("startDate");
-        String endDate = (String) params.get("endDate");
+        String date = (String) params.get("date");
+        System.out.println(params.get("date")+"=================");
+        Date startDate = null;
+        Date endDate = null;
+        if((!"".equals(date)) && (!"null".equals(date)) && date != null){
+            String[] dates = date.split(",");
+            DateUtils dateUtils = new DateUtils();
+            startDate = dateUtils.str2Date(dates[0]);
+            endDate = dateUtils.str2Date(dates[1]);
+        }
         System.out.println(startDate+"----startDate------------------------");
         System.out.println(endDate+"----endDate------------------------");
         PageInfo<User> userByKeyWords = userService.findUserByKeyWords(page, limit,userName,name,state,startDate,endDate);

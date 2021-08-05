@@ -33,7 +33,7 @@ public interface RoleService {
      * @param state 状态
      * @return PageInfo
      */
-    PageInfo<Role> findRoleByKeyWords(int pageNum, int pageSize,String name,Integer state);
+    PageInfo<Role> findRoleByKeyWords(int pageNum, int pageSize,String name,String state);
 
     /**
      * 添加角色
@@ -55,4 +55,12 @@ public interface RoleService {
      * @return int
      */
     int updateDemoRole(Role role);
+
+    /**
+     * 修改角色状态
+     * @param state 状态
+     * @param id 角色id
+     * @return int
+     */
+    int changeState(Integer state,Integer id);
 }

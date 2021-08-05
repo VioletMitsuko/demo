@@ -163,4 +163,8 @@
             id = #{id}
         </where>
     </update>
+
+    <update id="changeState" >
+        update ROLE_T  set state = #{state} where ID = #{id}
+    </update>
 </mapper>

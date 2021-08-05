@@ -6,7 +6,7 @@ spring:
     username: mitsuko
     password: 123456
     url: jdbc:oracle:thin:@localhost:1521:XE
-    driver-class-name: oracle.jdbc.driver.OracleDriver
+    driver-class-name: oracle.jdbc.OracleDriver
 
 mybatis:
   mapper-locations: mapper/*.xml

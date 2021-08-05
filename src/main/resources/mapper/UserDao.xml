@@ -47,7 +47,7 @@
             <if test="state!=null and state!=''">
                 and state like CONCAT(CONCAT('%',#{state}),'%')
             </if>
-            <if test="startDate!=null"  >
+            <if test="startDate!=null">
                 and CREATION_DATE >= #{startDate}
             </if>
             <if test="endDate!=null">

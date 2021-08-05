@@ -2,14 +2,17 @@ package com.example.system.controller;
 
 import com.example.system.domain.Role;
 import com.example.system.service.RoleService;
+import com.example.system.utils.ResultInfo;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -29,42 +32,37 @@ public class RoleController {
     }
 
     @RequestMapping("/findRoleByKeyWords")
-    public PageInfo<Role> findRoleByKeyWords(String name,Integer state){
-        PageInfo<Role> roleByKeyWords = roleService.findRoleByKeyWords(1, 5, name, state);
-        return roleByKeyWords;
+    public ResultInfo<PageInfo<Role>> findRoleByKeyWords(Integer page, Integer limit, @RequestParam Map params){
+        String name = (String) params.get("name");
+        String state = (String) params.get("state");
+        PageInfo<Role> roleByKeyWords = roleService.findRoleByKeyWords(page, limit, name, state);
+        return new ResultInfo<>(200,"success",roleByKeyWords);
     }
 
     @RequestMapping("/addRole")
-    public String addROle(String roleCode, String name, String starTime,String stopTime,Integer state, Integer createBy, Date creationDate, Integer lastUpdateBy, Date lastUpdateDate,Integer lastUpdateLogin,String description,String deleteFlag) throws ParseException {
-        Role role;
-        if (Objects.nonNull(starTime) && Objects.nonNull(stopTime)){
-            Date start = new SimpleDateFormat("yyyy-MM-dd").parse(starTime);
-            Date end = new SimpleDateFormat("yyyy-MM-dd").parse(stopTime);
-            role = new Role(roleCode, name, start, end, state, createBy, creationDate, lastUpdateBy, lastUpdateDate, lastUpdateLogin, description, deleteFlag);
-        } else {
-            role = new Role(roleCode, name, null, null, state, createBy, creationDate, lastUpdateBy, lastUpdateDate, lastUpdateLogin, description, deleteFlag);
-        }
+    public ResultInfo<Integer>  addROle(Role role)  {
         int i = roleService.addDemoRole(role);
         if (i > 0){
-            return "ok";
+            return new ResultInfo<>(200, "添加成功", i);
         }
-        return "no";
+        return new ResultInfo<>(405, "添加失败", i);
     }
 
     @RequestMapping("/updateRole")
-    public String updateRole(String roleCode,String name,String starTime,String stopTime,int state,int createBy, Date creationDate, int lastUpdateBy, Date lastUpdateDate,int lastUpdateLogin,String description,String deleteFlag) throws ParseException {
-        Role role;
-        if (Objects.nonNull(starTime) && Objects.nonNull(stopTime)){
-            Date start = new SimpleDateFormat("yyyy-MM-dd").parse(starTime);
-            Date end = new SimpleDateFormat("yyyy-MM-dd").parse(stopTime);
-            role = new Role(roleCode, name, start, end, state, createBy, creationDate, lastUpdateBy, lastUpdateDate, lastUpdateLogin, description, deleteFlag);
-        } else {
-            role = new Role(roleCode, name, null, null, state, createBy, creationDate, lastUpdateBy, lastUpdateDate, lastUpdateLogin, description, deleteFlag);
-        }
+    public ResultInfo<Integer>  updateRole(Role role) {
         int i = roleService.updateDemoRole(role);
         if (i > 0 ){
-            return "ok";
+            return new ResultInfo<>(200,"success",i);
         }
-        return "no";
+        return new ResultInfo<>(405, "修改失败", i);
+    }
+
+    @RequestMapping("/changeState")
+    public ResultInfo<Integer> changeState(Integer state,int id){
+        int i = roleService.changeState(state,id);
+        if (i > 0){
+            return new ResultInfo<>(200, "状态修改成功", i);
+        }
+        return new ResultInfo<>(405, "状态修改失败", i);
     }
 }

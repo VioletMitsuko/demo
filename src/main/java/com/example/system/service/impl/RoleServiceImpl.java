@@ -33,7 +33,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public PageInfo<Role> findRoleByKeyWords(int pageNum, int pageSize, String name, Integer state) {
+    public PageInfo<Role> findRoleByKeyWords(int pageNum, int pageSize, String name, String state) {
         PageHelper.startPage(pageNum,pageSize);
         List<Role> lists = roleDao.findRoleByKeyWords(name, state);
         PageInfo<Role> pageInfo = new PageInfo<>(lists);
@@ -53,5 +53,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public int updateDemoRole(Role role) {
         return roleDao.updateDemoRole(role);
+    }
+
+    @Override
+    public int changeState(Integer state, Integer id) {
+        return roleDao.changeState(state, id);
     }
 }

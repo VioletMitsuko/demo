@@ -39,7 +39,7 @@ public interface UserDao {
 
 
 
-    List<User> findUserByKeyWords(String userName,String name,String state,String startDate,String endDate);
+    List<User> findUserByKeyWords(String userName,String name,String state,Date startDate,Date endDate);
 
     /**
      * 添加用户

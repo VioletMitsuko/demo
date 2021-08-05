@@ -30,7 +30,7 @@ public interface RoleDao {
      * @param state 状态
      * @return list
      */
-    List<Role> findRoleByKeyWords(String name,Integer state);
+    List<Role> findRoleByKeyWords(String name,String state);
 
     /**
      * 添加角色
@@ -52,4 +52,12 @@ public interface RoleDao {
      * @return int
      */
     int updateDemoRole(Role role);
+
+    /**
+     * 修改角色状态
+     * @param state 状态
+     * @param id 角色id
+     * @return int
+     */
+    int changeState(Integer state,Integer id);
 }
