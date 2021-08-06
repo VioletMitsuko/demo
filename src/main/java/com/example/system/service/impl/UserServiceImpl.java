@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int deleteDemoUser(List<Integer> id) {
+    public int deleteDemoUser(Integer[] id) {
         return userDao.deleteDemoUser(id);
     }
 

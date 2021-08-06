@@ -32,7 +32,7 @@ public interface MenuDao {
      * @param type 类型
      * @return
      */
-    List<Menu> findMenuByKeyWords(String name,Integer state,Integer type);
+    List<Menu> findMenuByKeyWords(String name,String state,String type);
 
     /**
      * 添加菜单
@@ -54,4 +54,12 @@ public interface MenuDao {
      * @return int
      */
     int updateDemoMenu(Menu menu);
+
+    /**
+     * 修改菜单状态
+     * @param state 状态
+     * @param id 菜单id
+     * @return int
+     */
+    int changeState(Integer state,Integer id);
 }

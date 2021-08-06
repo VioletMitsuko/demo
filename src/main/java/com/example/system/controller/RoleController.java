@@ -51,7 +51,7 @@ public class RoleController {
     public ResultInfo<Integer> addROle(Role role)  {
         int i = roleService.addDemoRole(role);
         if (i > 0){
-            return new ResultInfo<>(200, "添加成功", i);
+            return new ResultInfo<>(200, "success", i);
         }
         return new ResultInfo<>(405, "添加失败", i);
     }
@@ -69,7 +69,7 @@ public class RoleController {
     public ResultInfo<Integer> changeState(Integer state,int id){
         int i = roleService.changeState(state,id);
         if (i > 0){
-            return new ResultInfo<>(200, "状态修改成功", i);
+            return new ResultInfo<>(200, "success", i);
         }
         return new ResultInfo<>(405, "状态修改失败", i);
     }
@@ -78,7 +78,7 @@ public class RoleController {
     public ResultInfo<Integer> deleteRole(@RequestParam List<Integer> id){
         int i = roleService.deleteDemoRole(id);
         if (i > 0){
-            return new ResultInfo<>(200, "删除成功", i);
+            return new ResultInfo<>(200, "success", i);
         }
         return new ResultInfo<>(405, "删除失败", i);
     }

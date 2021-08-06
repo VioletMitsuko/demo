@@ -34,7 +34,7 @@ public interface MenuService {
      * @param type 类型
      * @return PageInfo
      */
-    PageInfo<Menu> findMenuByKeyWords(int pageNum,int pageSize,String name, Integer state, Integer type);
+    PageInfo<Menu> findMenuByKeyWords(int pageNum,int pageSize,String name, String state, String type);
 
     /**
      * 添加菜单
@@ -56,4 +56,12 @@ public interface MenuService {
      * @return int
      */
     int updateDemoMenu(Menu menu);
+
+    /**
+     * 修改菜单状态
+     * @param state 状态
+     * @param id 菜单id
+     * @return int
+     */
+    int changeState(Integer state,Integer id);
 }

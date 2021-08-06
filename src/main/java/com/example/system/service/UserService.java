@@ -60,7 +60,7 @@ public interface UserService {
      * @param id 用户id
      * @return int
      */
-    int deleteDemoUser(List<Integer> id);
+    int deleteDemoUser(Integer[] id);
 
     /**
      * 修改用户信息

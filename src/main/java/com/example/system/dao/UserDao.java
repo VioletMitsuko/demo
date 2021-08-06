@@ -38,7 +38,15 @@ public interface UserDao {
     User demoUserLogin(String userName, String password);
 
 
-
+    /**
+     * 模糊查询
+     * @param userName
+     * @param name
+     * @param state
+     * @param startDate
+     * @param endDate
+     * @return
+     */
     List<User> findUserByKeyWords(String userName,String name,String state,Date startDate,Date endDate);
 
     /**
@@ -53,7 +61,7 @@ public interface UserDao {
      * @param id 用户id
      * @return int
      */
-    int deleteDemoUser(List<Integer> id);
+    int deleteDemoUser(Integer[] id);
 
     /**
      * 修改用户信息

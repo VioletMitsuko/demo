@@ -33,7 +33,7 @@ public class MenuServiceimpl implements MenuService {
     }
 
     @Override
-    public PageInfo<Menu> findMenuByKeyWords(int pageNum, int pageSize, String name, Integer state, Integer type) {
+    public PageInfo<Menu> findMenuByKeyWords(int pageNum, int pageSize, String name, String state, String type) {
         PageHelper.startPage(pageNum,pageSize);
         List<Menu> lists = menuDao.findMenuByKeyWords(name, state, type);
         PageInfo<Menu> pageInfo = new PageInfo<>(lists);
@@ -53,5 +53,10 @@ public class MenuServiceimpl implements MenuService {
     @Override
     public int updateDemoMenu(Menu menu) {
         return menuDao.updateDemoMenu(menu);
+    }
+
+    @Override
+    public int changeState(Integer state, Integer id) {
+        return menuDao.changeState(state, id);
     }
 }
