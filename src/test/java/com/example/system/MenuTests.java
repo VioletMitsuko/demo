@@ -22,4 +22,13 @@ public class MenuTests {
         PageInfo<Menu> allByPage = menuService.findAllByPage(1, 5);
         System.out.println(allByPage);
     }
+
+    @Test
+    public void testUpdateMenu(){
+        Menu menu = new Menu();
+        menu.setId(10);
+        menu.setSortNum(2);
+        int i = menuService.updateDemoMenu(menu);
+        System.out.println(i);
+    }
 }

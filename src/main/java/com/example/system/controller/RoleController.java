@@ -56,8 +56,8 @@ public class RoleController {
         return new ResultInfo<>(405, "添加失败", i);
     }
 
-    @RequestMapping("/updateRole")
-    public ResultInfo<Integer>  updateRole(Role role) {
+    @PostMapping("/updateRole")
+    public ResultInfo<Integer> updateRole(Role role) {
         int i = roleService.updateDemoRole(role);
         if (i > 0 ){
             return new ResultInfo<>(200,"success",i);

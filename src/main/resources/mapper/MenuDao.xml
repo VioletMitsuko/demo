@@ -20,6 +20,7 @@
                 and type like CONCAT(CONCAT('%',#{type}),'%')
             </if>
         </where>
+        order by CREATION_DATE desc
     </select>
 
     <!-- 对应的插入字段的名字 -->
@@ -176,4 +177,11 @@
     <update id="changeState" >
         update MENU_T  set state = #{state} where ID = #{id}
     </update>
+
+    <delete id="deleteDemoMenu" parameterType="Integer">
+        delete from MENU_T where ID in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

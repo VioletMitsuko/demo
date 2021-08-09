@@ -54,6 +54,7 @@
                 and #{endDate} >= CREATION_DATE
             </if>
         </where>
+        order by CREATION_DATE desc
     </select>
 
     <!-- 对应的插入字段的名字 -->
@@ -170,7 +171,7 @@
 <!--        </foreach>-->
 <!--    </update>-->
 
-    <update id="updateDemoUSer" parameterType="User">
+    <update id="updateDemoUser" parameterType="User">
         update USER_T
             <trim prefix="set" prefixOverrides="," suffixOverrides=",">
                 <if test="userName!=null and userName!=''">

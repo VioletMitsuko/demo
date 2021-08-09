@@ -36,6 +36,7 @@
                 and state like CONCAT(CONCAT('%',#{state}),'%')
             </if>
         </where>
+        order by CREATION_DATE desc
     </select>
 
     <!-- 对应的插入字段的名字 -->
@@ -142,10 +143,10 @@
             <if test="name!=null and name!=''">
                 name = #{name},
             </if>
-            <if test="starTime!=null and starTime!=''">
+            <if test="starTime!=null">
                 starTime = #{starTime},
             </if>
-            <if test="stopTime!=null and stopTime!=''">
+            <if test="stopTime!=null">
                 stopTime = #{stopTime},
             </if>
             <if test="state!=null and state!=''">

@@ -1,14 +1,13 @@
 package com.example.system.controller;
 
 import com.example.system.domain.Menu;
-import com.example.system.domain.Role;
 import com.example.system.service.MenuService;
 import com.example.system.utils.ResultInfo;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,13 +36,12 @@ public class MenuController {
     }
 
     @RequestMapping("/addMenu")
-    public String addMenu(String name,Integer fatherId, Integer type, String identifier, String url, String img, Integer state, Integer sortNum, Integer createBy, Date creationDate,Integer lastUpdateBy,  Date lastUpdatedDate,String description, String deleteFlag){
-        Menu menu = new Menu(name,fatherId,type,identifier,url,img,state,sortNum,createBy, creationDate, lastUpdateBy, lastUpdatedDate, description,  deleteFlag);
+    public ResultInfo<Integer> addMenu(Menu menu){
         int i = menuService.addDemoMenu(menu);
-        if (i > 0 ){
-            return "ok";
+        if (i > 0){
+            return new ResultInfo<>(200, "success", i);
         }
-        return "no";
+        return new ResultInfo<>(405, "添加失败", i);
     }
 
     @RequestMapping("/changeState")
@@ -53,5 +51,23 @@ public class MenuController {
             return new ResultInfo<>(200, "success", i);
         }
         return new ResultInfo<>(405, "状态修改失败", i);
+    }
+
+    @RequestMapping("/deleteMenu")
+    public ResultInfo<Integer> deleteMenu(@RequestParam List<Integer> id){
+        int i = menuService.deleteDemoMenu(id);
+        if (i > 0){
+            return new ResultInfo<>(200, "success", i);
+        }
+        return new ResultInfo<>(405, "删除失败", i);
+    }
+
+    @PostMapping("/updateMenu")
+    public ResultInfo<Integer> updateMenu(Menu menu){
+        int i = menuService.updateDemoMenu(menu);
+        if (i > 0){
+            return new ResultInfo<>(200, "success", i);
+        }
+        return new ResultInfo<>(405, "修改失败", i);
     }
 }
