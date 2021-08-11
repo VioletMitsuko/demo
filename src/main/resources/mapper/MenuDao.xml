@@ -3,8 +3,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.system.dao.MenuDao">
 
+    <resultMap id="menuMap" type="Menu">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="fatherId" column="FATHER_ID" jdbcType="INTEGER"/>
+        <result property="type" column="TYPE" jdbcType="INTEGER"/>
+        <result property="url" column="URL" jdbcType="VARCHAR"/>
+        <result property="img" column="IMG" jdbcType="VARCHAR"/>
+        <result property="state" column="STATE" jdbcType="INTEGER"/>
+        <result property="createBy" column="CREATE_BY" jdbcType="INTEGER"/>
+        <result property="creationDate" column="CREATION_DATE" jdbcType="OTHER"/>
+        <result property="lastUpdateBy" column="LAST_UPDATE_BY" jdbcType="INTEGER"/>
+        <result property="lastUpdatedDate" column="LAST_UPDATED_DATE" jdbcType="OTHER"/>
+        <result property="description" column="DESCRIPTION" jdbcType="VARCHAR"/>
+        <result property="deleteFlag" column="DELETE_FLAG" jdbcType="VARCHAR"/>
+    </resultMap>
+
     <select id="findAllDemoMenu" resultType="Menu">
-        select * from MENU_T where FATHER_ID
+        select * from MENU_T
     </select>
 
     <select id="findMenuByKeyWords" resultType="Menu">
@@ -20,7 +36,11 @@
                 and type like CONCAT(CONCAT('%',#{type}),'%')
             </if>
         </where>
-        order by CREATION_DATE desc
+        order by FATHER_ID
+    </select>
+
+    <select id="findFatherMenu" resultType="Menu">
+        select * from MENU_T
     </select>
 
     <!-- 对应的插入字段的名字 -->

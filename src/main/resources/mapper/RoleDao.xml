@@ -182,4 +182,8 @@
     <update id="changeState" >
         update ROLE_T  set state = #{state} where ID = #{id}
     </update>
+
+    <insert id="setRoleMenu" parameterType="RoleMenu" >
+        insert into ROLE_MENU_T(ROLE_ID,MENU_ID) values (#{roleId},#{menuId})
+    </insert>
 </mapper>

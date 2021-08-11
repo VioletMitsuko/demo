@@ -18,6 +18,8 @@ public interface RoleService {
      */
     PageInfo<Role> findAllByPage(int pageNum, int pageSize);
 
+    List<Role> findAll();
+
     /**
      * 根据角色id查询角色
      * @param id 角色id
@@ -63,4 +65,12 @@ public interface RoleService {
      * @return int
      */
     int changeState(Integer state,Integer id);
+
+    /**
+     * 设置角色菜单
+     * @param roleId 角色id
+     * @param menuId 菜单id
+     * @return int
+     */
+    int setRoleMenu(Integer roleId,Integer menuId);
 }

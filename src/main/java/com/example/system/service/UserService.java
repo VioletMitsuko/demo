@@ -1,10 +1,12 @@
 package com.example.system.service;
 
 import com.example.system.domain.User;
+import com.example.system.domain.UserRole;
 import com.github.pagehelper.PageInfo;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author VioletMitsuko
@@ -77,12 +79,13 @@ public interface UserService {
      */
     int changeState(Integer state,Integer id);
 
-    /**
-     * 设置用户角色
-     * @param roleId 角色id
-     * @param userId 用户id
-     * @return int
-     */
-    int setUserRole(List<Integer> roleId,Integer userId);
+//    /**
+//     * 设置用户角色
+//     * @param roleId 角色id
+//     * @param userId 用户id
+//     * @return int
+//     */
+//    int setUserRole(Integer roleId,Integer userId);
+
 
 }

@@ -28,6 +28,11 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public List<Role> findAll() {
+        return roleDao.findAllDemoRole();
+    }
+
+    @Override
     public Role findDemoRoleById(Integer id) {
         return roleDao.findDemoRoleById(id);
     }
@@ -58,5 +63,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public int changeState(Integer state, Integer id) {
         return roleDao.changeState(state, id);
+    }
+
+    @Override
+    public int setRoleMenu(Integer roleId, Integer menuId) {
+        return roleDao.setRoleMenu(roleId, menuId);
     }
 }

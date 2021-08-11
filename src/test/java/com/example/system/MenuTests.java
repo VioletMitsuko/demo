@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 @SpringBootTest
 public class MenuTests {
 
@@ -19,8 +21,8 @@ public class MenuTests {
 
     @Test
     void testFindAllByPage(){
-        PageInfo<Menu> allByPage = menuService.findAllByPage(1, 5);
-        System.out.println(allByPage);
+        List<Menu> fatherMenu = menuService.findFatherMenu();
+        System.out.println(fatherMenu);
     }
 
     @Test

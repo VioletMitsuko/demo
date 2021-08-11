@@ -34,6 +34,13 @@ public interface MenuDao {
      */
     List<Menu> findMenuByKeyWords(String name,String state,String type);
 
+
+    /**
+     * 查找上级菜单
+     * @return list
+     */
+    List<Menu> findFatherMenu();
+
     /**
      * 添加菜单
      * @param menu 菜单信息

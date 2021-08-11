@@ -1,6 +1,7 @@
 package com.example.system.dao;
 
 import com.example.system.domain.User;
+import com.example.system.domain.UserRole;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
@@ -8,6 +9,7 @@ import org.apache.ibatis.annotations.Results;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author VioletMitsuko
@@ -78,11 +80,11 @@ public interface UserDao {
      */
     int changeState(Integer state,Integer id);
 
-    /**
-     * 设置用户角色
-     * @param roleId 角色id
-     * @param userId 用户id
-     * @return int
-     */
-    int setUserRole(List<Integer> roleId,Integer userId);
+//    /**
+//     * 设置用户角色
+//     * @param roleId 角色id
+//     * @param userId 用户id
+//     * @return int
+//     */
+//    int setUserRole(Integer roleId,Integer userId);
 }

@@ -28,6 +28,11 @@ public class MenuServiceimpl implements MenuService {
     }
 
     @Override
+    public List<Menu> findAll() {
+        return menuDao.findAllDemoMenu();
+    }
+
+    @Override
     public Menu findDemoMenuById(Integer id) {
         return menuDao.findDemoMenuById(id);
     }
@@ -38,6 +43,11 @@ public class MenuServiceimpl implements MenuService {
         List<Menu> lists = menuDao.findMenuByKeyWords(name, state, type);
         PageInfo<Menu> pageInfo = new PageInfo<>(lists);
         return pageInfo;
+    }
+
+    @Override
+    public List<Menu> findFatherMenu() {
+        return menuDao.findFatherMenu();
     }
 
     @Override

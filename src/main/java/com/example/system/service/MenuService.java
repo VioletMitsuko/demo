@@ -18,6 +18,8 @@ public interface MenuService {
      */
     PageInfo<Menu> findAllByPage(int pageNum, int pageSize);
 
+    List<Menu> findAll();
+
     /**
      * 根据菜单id查询菜单
      * @param id 菜单id
@@ -35,6 +37,12 @@ public interface MenuService {
      * @return PageInfo
      */
     PageInfo<Menu> findMenuByKeyWords(int pageNum,int pageSize,String name, String state, String type);
+
+    /**
+     * 查找上级菜单
+     * @return list
+     */
+    List<Menu> findFatherMenu();
 
     /**
      * 添加菜单

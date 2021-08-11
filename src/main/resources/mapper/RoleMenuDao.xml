@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.system.dao.RoleMenuDao">
+
+    <resultMap id="RoleMenuMap" type="com.example.system.domain.RoleMenu">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="starTime" column="STARTIME" jdbcType="OTHER"/>
+        <result property="stopTime" column="STOPTIME" jdbcType="OTHER"/>
+        <result property="roleId" column="ROLE_ID" jdbcType="INTEGER"/>
+        <result property="menuId" column="MENU_ID" jdbcType="INTEGER"/>
+        <result property="state" column="STATE" jdbcType="INTEGER"/>
+        <result property="createBy" column="CREATE_BY" jdbcType="INTEGER"/>
+        <result property="creationDate" column="CREATION_DATE" jdbcType="OTHER"/>
+        <result property="lastUpdateBy" column="LAST_UPDATE_BY" jdbcType="INTEGER"/>
+        <result property="lastUpdatedDate" column="LAST_UPDATED_DATE" jdbcType="OTHER"/>
+        <result property="lastUpdatedLogin" column="LAST_UPDATED_LOGIN" jdbcType="INTEGER"/>
+        <result property="description" column="DESCRIPTION" jdbcType="VARCHAR"/>
+        <result property="deleteFlag" column="DELETE_FLAG" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="insertMenusForRole" parameterType="Integer">
+        insert into ROLE_MENU_T (ROLE_ID, MENU_ID) values (#{roleId} ,#{menuId})
+    </insert>
+
+    <select id="findMenusOfRoleByRoleId" resultType="RoleMenu">
+        select * from ROLE_MENU_T where ROLE_ID = #{id}
+    </select>
+
+    <!--    查找角色所拥有的所有菜单的id集合-->
+    <select id="findMenusIDOfRole" resultType="Integer">
+        select id from ROLE_MENU_T where ROLE_ID = #{id}
+    </select>
+
+    <delete id="deleteMenusOfRole">
+        delete from ROLE_MENU_T where ROLE_ID = #{roleId} and MENU_ID in
+        <foreach item="item" collection="menuId" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+
+    <delete id="deleteAllMenusOfRole">
+        delete from ROLE_MENU_T where ROLE_ID = #{roleId}
+    </delete>
+
+
+
+</mapper>

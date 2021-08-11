@@ -226,13 +226,5 @@
         update USER_T  set state = #{state} where ID = #{id}
     </update>
 
-    <update id="setUserRole" parameterType="User">
-        <foreach collection="list" item="roleId" index="index" open="" close="" separator=";">
-            update USER_ROLE_T
-            <set>
-                ROLE_ID = #{roleId}
-            </set>
-        </foreach>
-            where userId = #{userId}
-    </update>
+
 </mapper>

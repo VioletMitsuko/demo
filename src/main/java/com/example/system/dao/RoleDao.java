@@ -60,4 +60,12 @@ public interface RoleDao {
      * @return int
      */
     int changeState(Integer state,Integer id);
+
+    /**
+     * 设置角色菜单
+     * @param roleId 角色id
+     * @param menuId 菜单id
+     * @return int
+     */
+    int setRoleMenu(Integer roleId,Integer menuId);
 }

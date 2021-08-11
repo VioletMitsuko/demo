@@ -7,6 +7,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,10 +21,10 @@ public class MenuController {
     @Autowired
     private MenuService menuService;
 
-    @RequestMapping("/pageS")
-    public PageInfo<Menu> findAllByPage(){
-        PageInfo<Menu> allByPage = menuService.findAllByPage(1, 5);
-        return allByPage;
+    @RequestMapping("/getMenusOfRole")
+    public ResultInfo<List<Menu>> getMenusOfRole(){
+        List<Menu> allByPage = menuService.findAll();
+        return new ResultInfo<>(200,"success",allByPage);
     }
 
     @RequestMapping("/findMenuByKeyWords")
@@ -69,5 +70,18 @@ public class MenuController {
             return new ResultInfo<>(200, "success", i);
         }
         return new ResultInfo<>(405, "修改失败", i);
+    }
+
+    @RequestMapping("/nodes")
+    public ResultInfo<List<Menu>> findFatherMenu(){
+        List<Menu> list = menuService.findFatherMenu();
+        List<Menu> fatherMenu = new ArrayList<>();
+        for (Menu menu : list) {
+            if (menu.getType() < 2){
+                fatherMenu.add(menu);
+            }
+        }
+        System.out.println(fatherMenu);
+        return new ResultInfo<>(200,"success",fatherMenu);
     }
 }

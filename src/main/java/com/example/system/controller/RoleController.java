@@ -33,10 +33,10 @@ public class RoleController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
     }
 
-    @RequestMapping("/pageS")
-    public PageInfo<Role> pageS(){
-        PageInfo<Role> allByPage = roleService.findAllByPage(1, 5);
-        return allByPage;
+    @RequestMapping("/getRolesOfUser")
+    public ResultInfo<List<Role>> getRolesOfUser(){
+        List<Role> list = roleService.findAll();
+        return new ResultInfo<>(200,"success",list);
     }
 
     @RequestMapping("/findRoleByKeyWords")
@@ -81,5 +81,14 @@ public class RoleController {
             return new ResultInfo<>(200, "success", i);
         }
         return new ResultInfo<>(405, "删除失败", i);
+    }
+
+    @PostMapping("/setRoleMenu")
+    public ResultInfo<Integer> setRoleMenu(Integer roleId ,Integer menuId){
+        int i = roleService.setRoleMenu(roleId,menuId);
+        if (i > 0){
+            return new ResultInfo<>(200, "success", i);
+        }
+        return new ResultInfo<>(405, "角色设置失败", i);
     }
 }

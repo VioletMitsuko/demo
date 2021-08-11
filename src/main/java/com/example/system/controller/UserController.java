@@ -24,12 +24,12 @@ public class UserController {
     private UserService userService;
 
     @PostMapping ("/login")
-    public String login(String userName,String password){
+    public ResultInfo<User> login(String userName,String password){
         User user = userService.demoUserLogin(userName, password);
         if (user != null){
-            return "ok";
+            return new ResultInfo<>(200,"success",user);
         }
-        return "no";
+        return new ResultInfo<>(405,"登录失败",null);
     }
 
     @RequestMapping("/pageS")
@@ -95,12 +95,4 @@ public class UserController {
         return new ResultInfo<>(405, "状态修改失败", i);
     }
 
-    @PostMapping("/setUserRole")
-    public String setUserRole(List<Integer> roleId ,Integer userId){
-        int i = userService.setUserRole(roleId,userId);
-        if (i > 0){
-            return "ok";
-        }
-        return "no";
-    }
 }
