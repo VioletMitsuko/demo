@@ -34,6 +34,13 @@ public interface MenuDao {
      */
     List<Menu> findMenuByKeyWords(String name,String state,String type);
 
+    /**
+     * 根据用户查找菜单
+     * @param id 用户id
+     * @return list
+     */
+    List<String> findMenuByUser(Integer id);
+
 
     /**
      * 查找上级菜单

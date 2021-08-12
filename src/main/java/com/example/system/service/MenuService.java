@@ -45,6 +45,13 @@ public interface MenuService {
     List<Menu> findFatherMenu();
 
     /**
+     * 根据用户查找菜单
+     * @param id 用户id
+     * @return list
+     */
+    List<String> findMenuByUser(Integer id);
+
+    /**
      * 添加菜单
      * @param menu 菜单信息
      * @return int

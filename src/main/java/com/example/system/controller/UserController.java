@@ -1,9 +1,12 @@
 package com.example.system.controller;
 
+import com.example.system.domain.Authority;
 import com.example.system.domain.User;
+import com.example.system.service.MenuService;
 import com.example.system.service.UserService;
 import com.example.system.utils.DateUtils;
 import com.example.system.utils.ResultInfo;
+import com.example.system.utils.TokenService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,14 +25,26 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private MenuService menuService;
 
+    @Authority(required = false)
     @PostMapping ("/login")
-    public ResultInfo<User> login(String userName,String password){
+    public ResultInfo<String> login(String userName,String password){
         User user = userService.demoUserLogin(userName, password);
         if (user != null){
-            return new ResultInfo<>(200,"success",user);
+            List<String> menuName = menuService.findMenuByUser(user.getId());
+            String token;
+            try {
+                token = TokenService.getToken(user,menuName);
+            }catch (Exception e){
+                e.printStackTrace();
+                return new ResultInfo<>(500,"token生成失败",null);
+            }
+            return new ResultInfo<>(200,user.getName(),token);
+        }else {
+            return new ResultInfo<>(405,"登录失败",null);
         }
-        return new ResultInfo<>(405,"登录失败",null);
     }
 
     @RequestMapping("/pageS")
@@ -38,6 +53,7 @@ public class UserController {
         return new ResultInfo<>(200, "success", allByPageS);
     }
 
+    @Authority("添加用户")
     @RequestMapping("/addUser")
     public ResultInfo<Integer> addUser(User user){
         int i = userService.addDemoUser(user);
@@ -47,6 +63,7 @@ public class UserController {
         return new ResultInfo<>(405, "添加失败", i);
     }
 
+    @Authority("查询用户")
     @PostMapping("/findUserByKeyWords")
     public ResultInfo<PageInfo<User>> findUserByKeyWords(Integer page,Integer limit,@RequestParam Map params) {
         String userName = (String) params.get("userName");
@@ -68,6 +85,7 @@ public class UserController {
         return new ResultInfo<>(405, "无数据", null);
     }
 
+    @Authority("修改用户")
     @PostMapping("/updateUser")
     public ResultInfo<Integer> updateUser(User user){
         int i = userService.updateDemoUser(user);
@@ -77,6 +95,7 @@ public class UserController {
         return new ResultInfo<>(405, "修改失败", i);
     }
 
+    @Authority("删除用户")
     @RequestMapping("/deleteUser")
     public ResultInfo<Integer> deleteUser(Integer[] id){
         int i = userService.deleteDemoUser(id);
@@ -86,6 +105,7 @@ public class UserController {
         return new ResultInfo<>(405, "删除失败", i);
     }
 
+    @Authority("修改用户")
     @RequestMapping("/changeState")
     public ResultInfo<Integer> changeState(Integer state,int id){
         int i = userService.changeState(state,id);

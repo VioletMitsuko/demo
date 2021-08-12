@@ -8,6 +8,7 @@ import com.example.system.service.UserRoleService;
 import com.example.system.utils.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
 
@@ -38,40 +39,57 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
-    public ResultInfo updateRolesOfUser(Integer userId, Integer[] roleId) {
+    public ResultInfo updateRolesOfUser(Integer userId,Integer[] roleId) {
         //获取该用户拥有的所有角色的主键
         List<Integer> roleIDOfUser = userRoleDao.findRoleIDOfUser(userId);
-        //将该用户拥有的所有角色的主键与用户传入的角色主键数组进行对比
-        if(roleId != null && roleId.length > 0){
-            List<Integer> roles = Arrays.asList(roleId);
-            ArrayList<Integer> rolesToDelete = new ArrayList<>();
-            for (Integer roleOfUser : roleIDOfUser) {
-                //如果当前拥有的角色主键集合和用户传进来的主键集合不同，则需要将该记录删除
-                if(!roles.contains(roleOfUser)){
-                    rolesToDelete.add(roleOfUser);
+        List<Integer> roleIds = new ArrayList<Integer>(Arrays.asList(roleId));
+        System.out.println(roleIDOfUser+"-----------------------");
+        System.out.println(roleIds+"-----------------------");
+        //如果用户传来的角色数组有值
+        if(roleIds.size() > 0){
+            //如果用户原本拥有的角色不为空
+            if(roleIDOfUser.size() > 0){
+                System.out.println("============="+roleIDOfUser.containsAll(roleIds));
+                if(roleIDOfUser.containsAll(roleIds)){
+                    roleIDOfUser.removeAll(roleIds);
+                    System.out.println(roleIds+"roleIds=========");
+                    userRoleDao.deleteRolesOfUser(userId, roleIDOfUser.toArray(new Integer[roleIDOfUser.size()]));
+                }else{
+                    List<Integer> roleIDofUserBackUp = new ArrayList<Integer>();
+                    roleIDofUserBackUp.addAll(roleIDOfUser);
+                    List<Integer> roleIdsBackUp = new ArrayList<Integer>();
+                    roleIdsBackUp.addAll(roleIds);
+                    //删除角色
+                    roleIds.removeAll(roleIDOfUser);
+                    userRoleDao.deleteRolesOfUser(userId, roleIds.toArray(new Integer[roleIds.size()]));
+                    //添加角色
+                    System.out.println("添加角色");
+                    roleIDOfUser.removeAll(roleIdsBackUp);
+                    roleIDOfUser.addAll(roleIdsBackUp);
+                    roleIDOfUser.removeAll(roleIDofUserBackUp);
+                    Integer result = 0;
+                    for (Integer integer : roleIDOfUser) {
+                        userRoleDao.insertRoleForUser(userId, integer);
+                        result++;
+                    }
+                    ResultInfo<Integer> resultInfo = new ResultInfo<>(200, "success", result);
+                    return resultInfo;
                 }
+            }else{
+                Integer result = 0;
+                for (Integer rId : roleIds) {
+                    userRoleDao.insertRoleForUser(userId,rId);
+                    result ++;
+                }
+                ResultInfo<Integer> resultInfo = new ResultInfo<>(200, "success", result);
+                return resultInfo;
             }
-            roleIDOfUser.remove(rolesToDelete);
-            //获取用来添加的角色id数组
-            List<Integer> rolesToInsert = Arrays.asList(roleId);
-            rolesToInsert.remove(roleIDOfUser);
-
-            Integer[] role = rolesToInsert.toArray(new Integer[rolesToInsert.size()]);
-            userRoleDao.deleteRolesOfUser(userId, role);
-
-            //为用户添加角色
-            Integer result = 0;
-            for (Integer integer : rolesToInsert) {
-                userRoleDao.insertRoleForUser(userId, integer);
-                result++;
-            }
-            ResultInfo<Integer> resultInfo = new ResultInfo<>(200, "success", result);
-            return resultInfo;
         }else{
-            //清空用户身上的所有角色
             Integer result = userRoleDao.deleteAllRolesOfUser(userId);
             ResultInfo<Integer> resultInfo = new ResultInfo<>(200, "success", result);
             return resultInfo;
         }
+        ResultInfo<Integer> resultInfo = new ResultInfo<>(200, "success", null);
+        return resultInfo;
     }
 }

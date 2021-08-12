@@ -1,5 +1,6 @@
 package com.example.system.controller;
 
+import com.example.system.domain.Authority;
 import com.example.system.service.RoleMenuService;
 import com.example.system.utils.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ public class RoleMenuController {
     private RoleMenuService roleMenuService;
 
 
+    @Authority("查询菜单")
     @GetMapping("/findMenus")
     public Map findMenusOfRoleByRoleId(Integer id){
         Map map = roleMenuService.findMenusOfRoleByRoleId(id);
@@ -24,6 +26,7 @@ public class RoleMenuController {
     };
 
 
+    @Authority("设置角色菜单")
     @PostMapping("/updateMenu")
     public ResultInfo updateRolesOfUser( Integer roleId, Integer[] menuId){
         ResultInfo resultInfo = roleMenuService.updateMenusOfRole(roleId, menuId);

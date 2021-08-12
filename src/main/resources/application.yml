@@ -19,3 +19,7 @@ pagehelper:
   helper-dialect: oracle
   reasonable: true
   support-methods-arguments: true
+
+logging:
+  level:
+    com.example.system.dao : debug

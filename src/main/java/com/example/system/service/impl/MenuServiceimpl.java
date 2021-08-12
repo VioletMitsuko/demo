@@ -51,6 +51,11 @@ public class MenuServiceimpl implements MenuService {
     }
 
     @Override
+    public List<String> findMenuByUser(Integer id) {
+        return menuDao.findMenuByUser(id);
+    }
+
+    @Override
     public int addDemoMenu(Menu menu) {
         return menuDao.addDemoMenu(menu);
     }

@@ -21,21 +21,21 @@
     </resultMap>
 
     <insert id="insertRoleForUser" parameterType="Integer" >
-        insert into USER_ROLE_T(ROLE_ID,USER_ID) values (#{roleId},#{userId})
+        insert into USER_ROLE_T(USER_ID,ROLE_ID) values (#{userId},#{roleId})
     </insert>
     <select id="findRolesOfUserByUserId" resultType="UserRole">
         select * from USER_ROLE_T where USER_ID = #{id}
     </select>
     <!--    查找用户所拥有的所有角色的id集合-->
-    <select id="findRoleIDOfUser" resultType="integer">
-        select id from USER_ROLE_T
+    <select id="findRoleIDOfUser" resultType="Integer">
+        select ROLE_ID from USER_ROLE_T
         where USER_ID = #{id}
     </select>
 
     <delete id="deleteRolesOfUser">
         delete from USER_ROLE_T where USER_ID = #{userId} and ROLE_ID in
-        <foreach item="item" collection="roleId" open="(" separator="," close=")">
-            #{item}
+        <foreach item="roleId" collection="roleId" open="(" separator="," close=")">
+            #{roleId}
         </foreach>
     </delete>
 

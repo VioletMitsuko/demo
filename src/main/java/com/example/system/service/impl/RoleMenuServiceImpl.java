@@ -45,39 +45,49 @@ public class RoleMenuServiceImpl implements RoleMenuService {
     public ResultInfo<Integer> updateMenusOfRole(Integer roleId, Integer[] menuId) {
         //获取该用户拥有的所有角色的主键
         List<Integer> menuIDOfRole = roleMenuDao.findMenusIDOfRole(roleId);
-        //将该用户拥有的所有角色的主键与用户传入的角色主键数组进行对比
-        if(menuId != null && menuId.length > 0){
-            List<Integer> menus = Arrays.asList(menuId);
-            ArrayList<Integer> menusToDelete = new ArrayList<>();
-            for (Integer menuOfRole : menuIDOfRole) {
-                //如果当前拥有的角色主键集合和用户传进来的主键集合不同，则需要将该记录删除
-                if(!menus.contains(menuOfRole)){
-                    menusToDelete.add(menuOfRole);
+        List<Integer> menuIds = new ArrayList<Integer>(Arrays.asList(menuId));
+        if(menuIds.size() > 0){
+            //如果用户原本拥有的角色不为空
+            if(menuIDOfRole.size() > 0){
+                if(menuIDOfRole.containsAll(menuIds)){
+                    menuIDOfRole.removeAll(menuIds);
+                    roleMenuDao.deleteMenusOfRole(roleId, menuIDOfRole.toArray(new Integer[menuIDOfRole.size()]));
+                }else{
+                    List<Integer> menuIDofRoleBackUp = new ArrayList<Integer>();
+                    menuIDofRoleBackUp.addAll(menuIDOfRole);
+                    List<Integer> menuIdsBackUp = new ArrayList<Integer>();
+                    menuIdsBackUp.addAll(menuIds);
+                    //删除角色
+                    menuIds.removeAll(menuIDOfRole);
+                    roleMenuDao.deleteMenusOfRole(roleId, menuIds.toArray(new Integer[menuIds.size()]));
+                    //添加角色
+                    System.out.println("添加角色");
+                    menuIDOfRole.removeAll(menuIdsBackUp);
+                    menuIDOfRole.addAll(menuIdsBackUp);
+                    menuIDOfRole.removeAll(menuIDofRoleBackUp);
+                    Integer result = 0;
+                    for (Integer integer : menuIDOfRole) {
+                        roleMenuDao.insertMenusForRole(roleId, integer);
+                        result++;
+                    }
+                    ResultInfo<Integer> resultInfo = new ResultInfo<>(200, "success", result);
+                    return resultInfo;
                 }
+            }else{
+                Integer result = 0;
+                for (Integer mId : menuIds) {
+                    roleMenuDao.insertMenusForRole(roleId,mId);
+                    result ++;
+                }
+                ResultInfo<Integer> resultInfo = new ResultInfo<>(200, "success", result);
+                return resultInfo;
             }
-            menuIDOfRole.remove(menusToDelete);
-            //获取用来添加的角色id数组
-            List<Integer> menusToInsert = Arrays.asList(menuId);
-            menusToInsert.remove(menuIDOfRole);
-
-            Integer[] menu = menusToInsert.toArray(new Integer[menusToInsert.size()]);
-            roleMenuDao.deleteMenusOfRole(roleId, menu);
-
-            //为角色添加菜单
-            Integer result = 0;
-            for (Integer integer : menusToInsert) {
-                roleMenuDao.insertMenusForRole(roleId, integer);
-                result++;
-            }
-            ResultInfo<Integer> resultInfo = new ResultInfo<>(200, "success", result);
-            return resultInfo;
         }else{
-            //清空用户身上的所有角色
             Integer result = roleMenuDao.deleteAllMenusOfRole(roleId);
             ResultInfo<Integer> resultInfo = new ResultInfo<>(200, "success", result);
             return resultInfo;
         }
-
-
+        ResultInfo<Integer> resultInfo = new ResultInfo<>(200, "success", null);
+        return resultInfo;
     }
 }

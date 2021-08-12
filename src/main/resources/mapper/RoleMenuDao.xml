@@ -28,7 +28,7 @@
 
     <!--    查找角色所拥有的所有菜单的id集合-->
     <select id="findMenusIDOfRole" resultType="Integer">
-        select id from ROLE_MENU_T where ROLE_ID = #{id}
+        select MENU_ID from ROLE_MENU_T where ROLE_ID = #{id}
     </select>
 
     <delete id="deleteMenusOfRole">

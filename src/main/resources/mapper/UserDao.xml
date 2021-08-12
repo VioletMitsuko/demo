@@ -32,7 +32,7 @@
     </select>
 
     <select id="demoUserLogin" resultType="User">
-        select * from USER_T where USERNAME = #{userName} and PASSWORD = #{password}
+        select * from USER_T where USERNAME = #{userName} and PASSWORD = #{password} and STATE != 0
     </select>
 
     <select id="findUserByKeyWords" resultType="User">

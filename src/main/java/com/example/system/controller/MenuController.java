@@ -1,5 +1,6 @@
 package com.example.system.controller;
 
+import com.example.system.domain.Authority;
 import com.example.system.domain.Menu;
 import com.example.system.service.MenuService;
 import com.example.system.utils.ResultInfo;
@@ -21,12 +22,14 @@ public class MenuController {
     @Autowired
     private MenuService menuService;
 
+    @Authority("查询菜单")
     @RequestMapping("/getMenusOfRole")
     public ResultInfo<List<Menu>> getMenusOfRole(){
         List<Menu> allByPage = menuService.findAll();
         return new ResultInfo<>(200,"success",allByPage);
     }
 
+    @Authority("查询菜单")
     @RequestMapping("/findMenuByKeyWords")
     public ResultInfo<PageInfo<Menu>> findMenuByKeyWords(Integer page, Integer limit, @RequestParam Map params){
         String name = (String) params.get("name");
@@ -36,6 +39,8 @@ public class MenuController {
         return new ResultInfo<>(200,"success",menuByKeyWords);
     }
 
+
+    @Authority("添加菜单")
     @RequestMapping("/addMenu")
     public ResultInfo<Integer> addMenu(Menu menu){
         int i = menuService.addDemoMenu(menu);
@@ -45,6 +50,7 @@ public class MenuController {
         return new ResultInfo<>(405, "添加失败", i);
     }
 
+    @Authority("修改菜单")
     @RequestMapping("/changeState")
     public ResultInfo<Integer> changeState(Integer state,int id){
         int i = menuService.changeState(state,id);
@@ -54,6 +60,7 @@ public class MenuController {
         return new ResultInfo<>(405, "状态修改失败", i);
     }
 
+    @Authority("删除菜单")
     @RequestMapping("/deleteMenu")
     public ResultInfo<Integer> deleteMenu(@RequestParam List<Integer> id){
         int i = menuService.deleteDemoMenu(id);
@@ -63,6 +70,7 @@ public class MenuController {
         return new ResultInfo<>(405, "删除失败", i);
     }
 
+    @Authority("修改菜单")
     @PostMapping("/updateMenu")
     public ResultInfo<Integer> updateMenu(Menu menu){
         int i = menuService.updateDemoMenu(menu);
@@ -72,6 +80,7 @@ public class MenuController {
         return new ResultInfo<>(405, "修改失败", i);
     }
 
+    @Authority("查询菜单")
     @RequestMapping("/nodes")
     public ResultInfo<List<Menu>> findFatherMenu(){
         List<Menu> list = menuService.findFatherMenu();

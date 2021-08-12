@@ -43,6 +43,15 @@
         select * from MENU_T
     </select>
 
+    <select id="findMenuByUser" resultType="String">
+        select m.name
+        from MENU_T m
+            inner join ROLE_MENU_T RMT on m.ID = RMT.MENU_ID
+            inner join USER_ROLE_T URT on RMT.ROLE_ID = URT.ROLE_ID
+            inner join USER_T UT on URT.USER_ID = UT.ID
+        where UT.ID = #{id}
+    </select>
+
     <!-- 对应的插入字段的名字 -->
     <sql id="key">
         <trim suffixOverrides=",">

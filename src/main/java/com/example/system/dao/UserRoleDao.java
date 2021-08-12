@@ -18,7 +18,7 @@ public interface UserRoleDao {
 
     Integer deleteRolesOfUser(Integer userId, Integer[] roleId);
 
-    Integer insertRoleForUser(Integer userId, Integer roleId);
+    Integer insertRoleForUser( Integer userId,Integer roleId);
 
     Integer deleteAllRolesOfUser(Integer userId);
 }
